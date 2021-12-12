@@ -108,18 +108,18 @@ weighted_grades <- grades * 0.1 + grades
 ## Create a factor of book genres using the genres_vector
 ## Assign the factor vector to factor_genre_vector
 genres_vector <- c("Fantasy", "Sci-Fi", "Sci-Fi", "Mystery", "Sci-Fi", "Fantasy")
-factor_genre_vector <- ___
+factor_genre_vector <- factor(genres_vector)
 
 ## Use the `summary()` function to print a summary of `factor_genre_vector`
-summary(__)
+summary(factor_genre_vector)
 
 ## Create ordered factor of book recommendations using the recommendations_vector
 ## `no` is the lowest and `yes` is the highest
 recommendations_vector <- c("neutral", "no", "no", "neutral", "yes")
 factor_recommendations_vector <- factor(
   recommendations_vector,
-  ordered = __,
-  levels = c(__, __, __)
+  ordered = TRUE,
+  levels = c("no", "neutral", "yes")
 )
 
 ## Use the `summary()` function to print a summary of `factor_recommendations_vector`
