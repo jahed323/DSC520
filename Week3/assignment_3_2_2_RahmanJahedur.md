@@ -67,4 +67,6 @@ vii.  Now that you have looked at this data visually for normality, you will now
 viii.  In several sentences provide an explanation of the result produced for skew, kurtosis, and z-scores. In addition, explain how a change in the sample size may change your explanation?
 
     The skew is a negative number. Just like we have seen with the histogram and probability plot, we see the value for skew also negative. 
-    The kurtosis is positive which means that there is a fat tailed distribution. This also means that we can more commonly see outcomes that are extreme compared to outcomes of a standard normal distribution. The z-score for skew is 0.52 and the z-score for kurtosis is 0.73. If the sample size were to change it would change the standard deviation which would affect the skew, kurtosis, and z-scores.
+    The kurtosis is positive which means that there is a fat tailed distribution. This also means that we can more commonly see outcomes that 
+    are extreme compared to outcomes of a standard normal distribution. The z-score for skew is 0.52 and the z-score for kurtosis is 0.73. If 
+    the sample size were to change it would change the standard deviation which would affect the skew, kurtosis, and z-scores.
