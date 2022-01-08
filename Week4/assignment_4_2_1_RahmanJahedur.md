@@ -1,6 +1,8 @@
-Assignment: ASSIGNMENT 4.2.1
-Name: Rahman, Jahedur
-Date: 2022-01-04
+# 4.2 Exercise 1
+
+Assignment: ASSIGNMENT 4.2.1  
+Name: Rahman, Jahedur  
+Date: 2022-01-04  
 
 1. What are the observational units in this study?
 
