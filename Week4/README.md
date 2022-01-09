@@ -6,6 +6,8 @@ Date: 2022-01-04
 
 1. What are the observational units in this study?  
 
+The observaational units in this study are
+
 2. Identify the variables mentioned in the narrative paragraph and determine which are categorical and quantitative?  
 
 3. Create one variable to hold a subset of your data set that contains only the Regular Section and one variable for the Sports Section.  
