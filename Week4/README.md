@@ -15,6 +15,7 @@ Date: 2022-01-04
 3. Create one variable to hold a subset of your data set that contains only the Regular Section and one variable for the Sports Section.  
 
 4. Use the Plot function to plot each Sections scores and the number of students achieving that score. Use additional Plot Arguments to label the graph and give each axis an appropriate label. Once you have produced your Plots answer the following questions:  
+
     a. Comparing and contrasting the point distributions between the two section, looking at both tendency and consistency: Can you say that one section tended to score more points than the other? Justify and explain your answer.  
         
         The first observation I made after plotting both sections is that Sports section has a wider range of scores than the Regular 
