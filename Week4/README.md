@@ -56,4 +56,5 @@ d. Check distributions of the data
 
 e. Identify if there are any outliers
 
-        The outliers are
+        Most of the values in the data are below the value of 500,000. The values above this could be considered outliers especially 
+        values above 1,000,000 with the most extreme outlier being over 1,500,000. This outliers value is 1,631,322.
