@@ -50,4 +50,6 @@ Assignment: ASSIGNMENT 4.2.2
 Name: Rahman, Jahedur  
 Date: 2022-01-05  
 
-    e. Identify if there are any outliers
+  e. Identify if there are any outliers
+  
+        The outliers are
