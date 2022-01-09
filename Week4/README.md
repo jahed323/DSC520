@@ -18,9 +18,9 @@ Date: 2022-01-04
 
 # 4.2 Exercise 2
 
-Assignment: ASSIGNMENT 4.2.2
-Name: Rahman, Jahedur
-Date: 2022-01-05
+Assignment: ASSIGNMENT 4.2.2  
+Name: Rahman, Jahedur  
+Date: 2022-01-05  
 
 Use the apply function on a variable in your dataset
 
