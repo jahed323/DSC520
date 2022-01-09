@@ -50,6 +50,10 @@ Assignment: ASSIGNMENT 4.2.2
 Name: Rahman, Jahedur  
 Date: 2022-01-05  
 
-  e. Identify if there are any outliers
-  
+d. Check distributions of the data
+
+![image](https://user-images.githubusercontent.com/89809634/148706138-1b025ed3-938b-444b-81b4-c59bb913df38.png)
+
+e. Identify if there are any outliers
+
         The outliers are
