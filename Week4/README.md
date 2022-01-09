@@ -22,15 +22,4 @@ Assignment: ASSIGNMENT 4.2.2
 Name: Rahman, Jahedur  
 Date: 2022-01-05  
 
-Use the apply function on a variable in your dataset
-
-Use the aggregate function on a variable in your dataset
-
-Use the plyr function on a variable in your dataset – more specifically, I want to see you split some data, perform a modification to the data, and then bring it back together
-
-Check distributions of the data
-
-Identify if there are any outliers
-
-Create at least 2 new variables
-
+e. Identify if there are any outliers
