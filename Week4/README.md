@@ -31,12 +31,16 @@ Date: 2022-01-04
     b. Did every student in one section score more points than every student in the other section? If not, explain what a statistical tendency means in this context.  
     
         No, every student in one section didn't score more points than every student in the other section. However, more students in 
-        the Regular section did score higher than students in the Sports section. One way to tell us this is by calculating the mean, median, and mode. The mean, median, and mode of the Regular section are 335, 325, and 350 respectfully. The mean, median, and mode of the Sports section are 306.92, 315, and 285/335 respectfully. The mean, median, and mode are higher in the Regular section then those of the Sports section.
+        the Regular section did score higher than students in the Sports section. One way to tell us this is by calculating the mean, 
+        median, and mode. The mean, median, and mode of the Regular section are 335, 325, and 350 respectfully. The mean, median, and 
+        mode of the Sports section are 306.92, 315, and 285/335 respectfully. The mean, median, and mode are higher in the Regular 
+        section then those of the Sports section.
     
     c. What could be one additional variable that was not mentioned in the narrative that could be influencing the point distributions between the two sections.  
     
         One additional variable that was not mentioned in the narrative that could be influencing the point distributions between the 
-        two sections are the sums of the counts of each section. After calculating them myself the Regular section has a sum count of 290 while the Sports section has a sum count of 260. 
+        two sections are the sums of the counts of each section. After calculating them myself the Regular section has a sum count of 
+        290 while the Sports section has a sum count of 260. 
 
 
 # 4.2 Exercise 2
