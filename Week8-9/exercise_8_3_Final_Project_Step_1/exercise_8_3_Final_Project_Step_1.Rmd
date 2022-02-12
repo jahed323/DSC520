@@ -26,25 +26,25 @@ The approaches address the problem because these approaches will find if there i
 
 ## Data  (Minimum of 3 Datasets - but no requirement on number of fields or rows)
 
-(https://www.kaggle.com/jonavery/incomes-by-career-and-gender)
-(https://www.kaggle.com/nilimajauhari/glassdoor-analyze-gender-pay-gap)
-(https://www.kaggle.com/uciml/adult-census-income)
+(https://www.kaggle.com/jonavery/incomes-by-career-and-gender)  
+(https://www.kaggle.com/nilimajauhari/glassdoor-analyze-gender-pay-gap)  
+(https://www.kaggle.com/uciml/adult-census-income)  
 
 ## Required Packages
 
-readxl
-ggplot2
-dplyr
-ggm
+readxl  
+ggplot2  
+dplyr  
+ggm  
 
 ## Plots and Table Needs
 
-age and income
-education and income
-experience and income
-gender and education
-gender and experience
-race and education?
+age and income  
+education and income  
+experience and income  
+gender and education  
+gender and experience  
+race and education  
 
 ## Questions for future steps
 
