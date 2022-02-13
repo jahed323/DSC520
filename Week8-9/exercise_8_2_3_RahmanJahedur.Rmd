@@ -23,6 +23,7 @@ library(psych)
 library(GGally)
 library(purrr)
 library(QuantPsyc)
+library(car)
 ```
 
 ```{r}
@@ -43,8 +44,7 @@ saleprice_predictors <- (housing_dataset_df)[c(2,13,14,15,16,22)]
 head(saleprice_predictors)
 ```
 
-
-#iii
+#iii  
 Execute a summary() function on two variables defined in the previous step to compare the model results. What are the R2 and Adjusted R2 statistics? Explain what these results tell you about the overall model. Did the inclusion of the additional predictors help explain any large variations found in Sale Price?
 
 ```{r echo=TRUE, include=TRUE}
@@ -56,7 +56,6 @@ summary(housing_lm1)
 summary(housing_lm2)
 ```
 > The first model, "housing_lm1", has an R2 statistic which is the square of the correlation of the sale price and the lot size. This is a single variable regression. This shows us the variability in sale price that is affected by the lot size. The adjusted R2 statistics has the same measure. The difference is that it gives us information on how it could change if it was given more data. Since the values of the R2 statistic and the adjusted R2 statistic are close, there is good generalizability. The second model, "housing_lm2", has an R2 statistic and average R2 statistic that are higher than the first model. These results tell us there is about 21% variability in the sale price. Just like in the first model the R2 and adjusted R2 values are very close so there is good generalizability. 
-For a single variable regression, like our first model, "housing_lm1" the R2 statistic is the square of the correlation between sale price and lot size. Specifically, it represents how much variability in sale price can be accounted for by lot size. The adjusted R sqaured represents the same measure in regards to sale price, but it reflects how it would be expected to change when applied to more/new data. When both values are close, it indicates that the model will generalize well. The first model indicates that variability in lot size explains almost none of the changes sale price, at approx 0.01 for both R2 and adjusted R2. The second model has much higher values compared to the first. The second model indicates that the predicting variables account for roughly 21% of the variabiliy found in sale price. Because the both values for R2 and adjusted R2 are nearly identical, we can also conclude that the second model has good generalizability. 
 
 #iv  
 Considering the parameters of the multiple regression model you have created. What are the standardized betas for each parameter and what do the values indicate?
@@ -65,8 +64,7 @@ lm.beta(housing_lm1)
 lm.beta(housing_lm2)
 ```
 > The standardized betas for the linear model "housing_lm1" indicates the sale price increases by 0.11 standard deviations when there is an increase in standard deviations for the property's lot size by square feet. The standardized betas for the linear model "housing_lm2" indicates that the sale price is affected by each variable in a similar way. Square feet of total living space has the most predictive impact compared to all the variables.
-The standardized betas allow variables of different scales to be compared by showing the impact of each variable in terms of standard deviation. The ouput for the standardized betas for the linear model "housing_lm1" indicate that with every standard devation increase in size of the property's lot size by square feet, there is an increase in the sale price by 0.11 standard deviations. The ouput for the model "housing_lm2" indicates how each variable similarly impacts the sale price. The analysis shows that the variable with the most predictive impact is square feet of the total living space, where an increase by one standard deviation of this variable is found with an increase of .37 standard deviations. 
-           
+
 #v  
 Calculate the confidence intervals for the parameters in your model and explain what the results indicate.
 ```{r}
@@ -74,14 +72,13 @@ confint(housing_lm1)
 confint(housing_lm2)
 ```
 > The confidence intervals calculated for "housing_lm1" have a small range. This indicates that the predictor's _b_ value is close to the real _b_ value. The confidence intervals calculated for "housing_lm2" have a larger range. In addition, these values cross zero and include negative values. This indicates that the sale price can increase or decrease depending on the number of bedrooms. This makes the output for sale price not consistent. However, the other variables do have better consistency and shorter range.
-The confidence intervals caluculated for "housing_lm1" are based on the _b_ values of our linear model which estimate change from the mean sale price given our parameter of lot size. The smaller the range between the two values 7.29 and 9.73 adds confidence that the predictor's _b_ value is close to the population's real _b_ value. The confidence intervals calculated for "housing_lm2" highlight a serious concern as the boundaries listed, -1.39 and 4.41 are not only farther apart than the rest, but they cross zero. This means that in some cases the number of bedrooms sometimes means an increase in sale_price and at other times, means a decrease in sale price. This is a fundamental problem of lacking directionality. For predictor to be useful in our current model, their relationship to the desired output "sale price" should at least be consistent. All other variables appear to have acceptable confidence boundaries for _b_ as they all appear to have a short range and consistent direction.   
-            
+
 #vi  
 Assess the improvement of the new model compared to your original model (simple regression model) by testing whether this change is significant by performing an analysis of variance.
 ```{r}
 anova(housing_lm1, housing_lm2)
 ```
->The analysis shows that the second model, "housing_lm2", has a p value below 0.001 so it did perform  better with 4 degrees of freedom.
+>The analysis shows that the second model, "housing_lm2", has a p value below 0.001 so it did perform better with 4 degrees of freedom.
 
 #vii  
 Perform casewise diagnostics to identify outliers and/or influential cases, storing each function's output in a dataframe assigned to a unique variable name.
@@ -95,29 +92,28 @@ saleprice_predictors$dffit<-dffits(housing_lm2)
 saleprice_predictors$leverage<-hatvalues(housing_lm2)
 saleprice_predictors$covariance.ratios<-covratio(housing_lm2)
 ```
-           
-            
-#viii
+
+#viii  
 Calculate the standardized residuals using the appropriate command, specifying those that are +-2, storing the results of large residuals in a variable you create.
 ```{r}
 saleprice_predictors$large.residual<-
   saleprice_predictors$standardized.residuals > 2 | saleprice_predictors$standardized.residuals < -2
 ```
 
-#ix
+#ix  
 Use the appropriate function to show the sum of large residuals.
 ```{r}
 sum(saleprice_predictors$large.residual)
 ```
-            
+
 #x  
 Which specific variables have large residuals (only cases that evaluate as TRUE)?
 ```{r}
 large_res<-saleprice_predictors%>%
   filter(large.residual == 1)
 ```
-            
-#xii  
+
+#xi  
 Investigate further by calculating the leverage, cooks distance, and covariance ratios. Comment on all cases that are problematic.
 
 ```{r}
@@ -142,7 +138,6 @@ large_res%>%
   nrow()
 ```
 > After calculating the average leverage, I doubled it to create a boundary. 111 cases from the large residuals dataframe go passed this boundary. After tripling the average leverage and applying it to the large residuals dataframe, 87 cases are beyond it. Compared to other cases, these unusually large residuals are not appropriate to our model's outcome.
-Here the calculated average leverage for our variables has been determined and doubled to create a boundary for our data. When this boundary is applied to the dataframe of large residuals, we find that 111 cases go beyond this boundary. Even if we loosen the criteria, changing the limit to 3 times the average leverage, we still find 87 cases that exceed it. These cases now include data that not only demonstrates unusually large residuals, but they are also calculated to be having a disproportionate influence on our model's outcome compared to other cases. 
 
 ```{r}  
 #Search for cook's distance values that exceed 1.0 
@@ -165,18 +160,38 @@ large_res%>%
   nrow()
 ```
 > After calculating cook's distance, I found no cases problematic since they are not equal to or larger than 1. The covariance ratios were calculated to be between 0.998 and 1.001.
-When reviewing the data with large residuals, no concerning data is found for cook's distance as none of the values meet or exceed 1. After calculating the average leverage as 0.00038, we find that around 124 examples that are more than twice this value, causing concern for linear model. The target for covariance ratios was found to be between .998 and 1.001.
 
-#xiii  
+#xii  
 Perform the necessary calculations to assess the assumption of independence and state if the condition is met or not.
 
+```{r}
+dwt(housing_lm1)
+dwt(housing_lm2)
+```
+> The D-W Statistic for both "housing_lm1" and "housing_lm2" are values that are less than 1 and not even close to a value of 2. Since the values aren't close to 2 that means the assumption of independence for both models are not met.
 
+#xiii  
+Perform the necessary calculations to assess the assumption of no multicollinearity and state if the condition is met or not.
+
+```{r}
+#VIF
+vif(housing_lm2)
+#Tolerance
+1/vif(housing_lm2)
+#Average VIF
+mean(vif(housing_lm2))
+```
+> The VIF values are below 10. Also, the tolerance statistics are above 0.2. In addition the average VIF value is is not that much greater than 1 so it shouldn't be biased. Using these values we can conclude that there is no collinearity with the data. 
 
 #xiv  
-Perform the necessary calculations to assess the assumption of no multicollinearity and state if the condition is met or not.
-            
-#xv  
 Visually check the assumptions related to the residuals using the plot() and hist() functions. Summarize what each graph is informing you of and if any anomalies are present.
-            
-#xvi  
+
+```{r}
+plot(housing_lm2)
+hist(rstudent(housing_lm2))
+```
+
+#xv  
 Overall, is this regression model unbiased? If an unbiased regression model, what does this tell us about the sample vs. the entire population model?
+
+> Based on the average VIF value, the model should be unbiased.
