@@ -1,0 +1,166 @@
+---
+title: "Final Project Step 2"
+author: "Jahedur Rahman"
+date: "2/18/2022"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## How to import and clean my data and how do you plan to slice and dice the data?
+
+Out of the three data sets I have one of the data sets "Glassdoor-Gender-Pay-Gap.csv" has almost all the variables and information I need. So this will be my main data set and the other two data sets will be used as supporting data sets whenever and wherever they are needed. I will rename and select columns that I need.
+
+```{r}
+library(dplyr)
+
+# Load "Glassdoor-Gender-Pay-Gap.csv" to orig_glassdoor_pay_df
+orig_glassdoor_pay_df <- read.csv('Glassdoor-Gender-Pay-Gap.csv')
+head(orig_glassdoor_pay_df)
+
+# Load "inc_occ_gender.csv" to orig_weekly_income_df
+orig_weekly_income_df <- read.csv('inc_occ_gender.csv')
+head(orig_weekly_income_df)
+
+# Load "income_evaluation.csv" to orig_income_evaluation_df
+orig_income_evaluation_df <- read.csv('income_evaluation.csv')
+head(orig_income_evaluation_df)
+
+# rename columns of orig_glassdoor_pay_df
+orig_glassdoor_pay_df <- orig_glassdoor_pay_df %>% 
+  rename(gender = Gender,
+         age = Age,
+         education = Education,
+         experience = Seniority,
+         annual_income = BasePay)
+head(orig_glassdoor_pay_df)
+
+# select columns from orig_glassdoor_pay_df to glassdoor_pay_df
+glassdoor_pay_df <- orig_glassdoor_pay_df %>%
+  select(gender, age, education, experience, annual_income)
+head(glassdoor_pay_df)
+
+# find the mean annual_income based on all the other columns
+glassdoor_pay_df <- glassdoor_pay_df %>% 
+  group_by(age, education, experience, gender) %>% 
+  summarize(mean_annual_income = mean(annual_income)) %>% 
+  ungroup()
+head(glassdoor_pay_df)
+
+# further condense the data by looking for the outliers and IQR
+boxplot.stats(glassdoor_pay_df$mean_annual_income)$out
+
+lower_lim = quantile(glassdoor_pay_df$mean_annual_income, 0.25) 
+
+upper_lim = quantile(glassdoor_pay_df$mean_annual_income, 0.75)
+
+glassdoor_IQR <- which(glassdoor_pay_df$mean_annual_income > lower_lim & glassdoor_pay_df$mean_annual_income < upper_lim)
+
+glassdoor_pay_df_IQR <- glassdoor_pay_df[glassdoor_IQR,]
+
+# rename columns of orig_weekly_income_df
+orig_weekly_income_df <- orig_weekly_income_df %>% 
+  rename(number_male_workers = M_workers,
+         male_median_weekly_income = M_weekly,
+         number_female_workers = F_workers,
+         female_median_weekly_income = F_weekly)
+head(orig_weekly_income_df)
+
+# select columns from orig_weekly_income_df to weekly_income_df
+weekly_income_df <- orig_weekly_income_df %>% 
+  select(number_male_workers, male_median_weekly_income, number_female_workers, female_median_weekly_income)
+head(weekly_income_df)
+
+# only need the first row because they are the total number
+weekly_income_df <- weekly_income_df[1,]
+head(weekly_income_df)
+
+# in orig_income_evaluation_df extract rows where native-country = " United-States" since the other data sets are based in United States
+orig_income_evaluation_df <- orig_income_evaluation_df %>% 
+  filter(native.country == " United-States")
+head(orig_income_evaluation_df)
+
+# rename columns of orig_income_evaluation_df
+orig_income_evaluation_df <- orig_income_evaluation_df %>% 
+  rename(gender = sex)
+head(orig_income_evaluation_df)
+
+# select columns from orig_income_evaluation_df to race_education_df
+race_education_df <- orig_income_evaluation_df %>% 
+  select(education, race)
+head(race_education_df)
+
+# there is a leading white space on all the values in the data, so this removes it
+race_education_df <- data.frame(lapply(race_education_df, trimws), stringsAsFactors = FALSE)
+
+# there are some values under education that does not apply to this analysis, so this removes them
+race_education_df <- race_education_df %>% 
+  filter(!education %in% c("Preschool", "1st-4th", "5th-6th", "7th-8th", "Prof-school"))
+
+# change all 9th, 10th, 11th, and 12th education values to Some-HS and Assoc-acdm and Assoc-voc to Associates
+race_education_df <- race_education_df %>% 
+  mutate(education = recode(education, "9th" = "Some-HS", "10th" = "Some-HS", "11th" = "Some-HS", "12th" = "Some-HS", "Assoc-acdm" = "Associates", "Assoc-voc" = "Associates"))
+
+# tally the total based on race and education
+race_education_df <- race_education_df %>% 
+  count(race, education, name = "total")
+head(race_education_df)
+```
+
+## What does the final data set look like?
+
+Since it is not possible to combine the three data sets, there are three final data sets. One of them will be my main data set which will address most of the questions, and the other two will be supporting data sets which will be used whenever and wherever needed.
+
+```{r}
+# MAIN DATA SET
+glassdoor_pay_df_IQR
+
+#SUPPORTING DATA SETS
+race_education_df
+weekly_income_df
+```
+
+## Questions for future steps.
+
+The data sets have been condensed as much as possible. However, this has me worried that the accuracy of the analysis has decreased. The supporting data sets, "race_education_df" and "weekly_income_df", should not affect the accuracy much. However, the main data set, "glassdoor_pay_df_IQR", will have the biggest impact in my analysis. Initially this data set had 1000 rows of data. 
+
+## What information is not self-evident?
+
+Information that is not self-evident is information of the location of the data. I have made an assumption that the data is from USA. So for the "race_education_df" I have only included data that has United-States in the rows in the native-country column. In addition, I would like to have compared race and income, but the income column in "orig_income_evaluation_df" would only tell if income was greater than 50k or less than 50k.
+
+## What are different ways you could look at this data?
+
+Different ways I could look at this data is by comparing different variables to each other, other than the ones I am already comparing. I could compare age and education, age and experience, education and experience, and gender and income.
+
+## How could you summarize your data to answer key questions?
+
+Calculating the correlation and covariance are great ways to summarize my data to answer key questions. Results from the summary function would also help. In addition, finding the maximum, minimum, mean, and median values will provide some more information.
+
+## What types of plots and tables will help you to illustrate the findings to your questions?
+
+```{r}
+## Load the ggplot2 package
+library(ggplot2)
+theme_set(theme_minimal())
+
+## Using `geom_point()` create scatterplots for
+## `age` vs. `mean_annual_income`
+ggplot(glassdoor_pay_df, aes(x=age, y=mean_annual_income)) + geom_point() + ggtitle("Age vs. Mean Annual Income") + xlab("Age") + ylab("Mean Annual Income")
+## `education` vs. `mean_annual_income`
+ggplot(glassdoor_pay_df, aes(x=education, y=mean_annual_income)) + geom_point() + ggtitle("Education vs. Mean Annual Income") + xlab("Education") + ylab("Mean Annual Income")
+## `experience` vs. `mean_annual_income`
+ggplot(glassdoor_pay_df, aes(x=experience, y=mean_annual_income)) + geom_point() + ggtitle("Experience vs. Mean Annual Income") + xlab("Experience") + ylab("Mean Annual Income")
+```
+
+## Do you plan on incorporating any machine learning techniques to answer your research questions? Explain.
+
+For now I do not plan on incorporating any machine learning techniques. However, after learning how to use them and if I do see if they are useful then I will decide to use them or not.
+
+## Questions for future steps.
+
+Is there a different way to condense the data so the data can be as accurate as possible? Should any of the questions be changed? 
