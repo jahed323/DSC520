@@ -1,0 +1,116 @@
+---
+title: "EXERCISE 10.2"
+author: "Jahedur Rahman"
+date: "2/15/2022"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##1a
+
+For this problem, you will be working with the thoracic surgery data set from the University of California Irvine machine learning repository. This dataset contains information on life expectancy in lung cancer patients after surgery. The underlying thoracic surgery data is in ARFF format. This is a text-based format with information on each of the attributes. You can load this data using a package such as foreign or by cutting and pasting the data section into a CSV file.
+
+```{r}
+library(dplyr)
+library(stats)
+library(ggplot2)
+library(caTools)
+# Load ThoraricSurgery.csv
+thoracic_surgery_df=read.csv('ThoraricSurgery.csv')
+```
+
+## 1bi
+
+Fit a binary logistic regression model to the data set that predicts whether or not the patient survived for one year (the Risk1Y variable) after the surgery. Use the glm() function to perform the logistic regression. See Generalized Linear Models for an example. Include a summary using the summary() function in your results.
+
+```{r}
+head(thoracic_surgery_df)
+ggplot(thoracic_surgery_df, aes(AGE, Risk1Yr)) + geom_point()
+ggplot(thoracic_surgery_df, aes(PRE4, Risk1Yr)) + geom_point()
+ggplot(thoracic_surgery_df, aes(PRE5, Risk1Yr)) + geom_point()
+
+# In PRE5 almost all values over 50 have a FALSE Risk1Yr
+thoracic_surgery_df$PRE5_50<-as.numeric(thoracic_surgery_df$PRE5 >= 50)
+View(thoracic_surgery_df)
+
+# Use the glm() function to perform the logistic regression.
+thoracic_surgery_glm <- glm(Risk1Yr ~ PRE5_50 + PRE6 + PRE9 + PRE17 + PRE30, data = thoracic_surgery_df, family= binomial())
+
+# Include a summary using the summary() function in your results.
+summary(thoracic_surgery_glm)
+```
+
+## 1bii
+
+According to the summary, which variables had the greatest effect on the survival rate?
+
+> The variables that had the greatest effect on the survival rate are PRE9 and PRE17. In addition, both of the variables had _p_ values of about 0.01, so they are significant.
+
+## 1biii
+
+To compute the accuracy of your model, use the dataset to predict the outcome variable. The percent of correct predictions is the accuracy of your model. What is the accuracy of your model?
+
+```{r}
+# Add a column for the probability of Risk1Yr based on the model
+thoracic_surgery_df$probability<-fitted(thoracic_surgery_glm) 
+head(thoracic_surgery_df)
+
+# Add a column for T and F for predictions based on the probability above 0.25
+thoracic_surgery_df$probability_TF<-if_else(thoracic_surgery_df$probability > .25, T, F)
+head(thoracic_surgery_df)
+
+# Compare predicted values with actual values
+thoracic_compare <- table(actual = thoracic_surgery_df$Risk1Yr, predicted = thoracic_surgery_df$probability_TF)
+thoracic_compare
+
+# Compute the accuracy
+(thoracic_compare[[1,1]] + thoracic_compare [[2,2]]) / sum(thoracic_compare)
+```
+
+> The acccuracy of the model is about 82%.
+
+## 2a
+
+Fit a logistic regression model to the binary-classifier-data.csv dataset
+
+```{r}
+library(mlogit)
+
+# Load binary-classifier-data.csv
+binary_classifier_df <- read.csv('binary-classifier-data.csv')
+head(binary_classifier_df)
+
+# Use the glm() function to perform the logistic regression.
+binary_classifier_glm <-glm(label ~ x + y, data = binary_classifier_df, family = binomial())
+```
+
+## 2bi
+
+What is the accuracy of the logistic regression classifier?
+
+```{r}
+summary(binary_classifier_glm)
+
+# Add a column for the probability of label based on the model
+binary_classifier_df$probability <-fitted(binary_classifier_glm)
+head(binary_classifier_df)
+
+# Add a column for 1 and 0 for predictions based on the probability above or equal to 0.43
+binary_classifier_df$probability_label<-if_else(binary_classifier_df$probability >= .43, 1, 0)
+head(binary_classifier_df)
+
+# Compare predicted values with actual values
+binary_compare <- table(actual = binary_classifier_df$label, predicted = binary_classifier_df$probability_label)
+binary_compare
+
+# Compute the accuracy
+(binary_compare[[1,1]] + binary_compare[[2,2]]) / sum(binary_compare)
+```
+
+> The accuracy is about 62%. After testing out different thresholds, 0.43 gave the best accuracy. An accuracy of 62% can mean that the variables did not have a linear relationship.
