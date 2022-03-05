@@ -1,0 +1,89 @@
+---
+title: "Exercise 11.2"
+author: "Jahedur Rahman"
+date: "3/4/2022"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1ei
+
+Plot the data from each dataset using a scatter plot.
+
+```{r}
+library(dplyr)
+library(stats)
+library(ggplot2)
+library(caTools)
+# Load binary-classifier-data.csv and trinary-classifier-data.csv
+binary_classifier_df=read.csv('binary-classifier-data.csv')
+trinary_classifier_df=read.csv('trinary-classifier-data.csv')
+
+ggplot(binary_classifier_df, aes(x=x, y=y, col=label)) + geom_point() + ggtitle("binary-classifier-data")
+ggplot(trinary_classifier_df, aes(x=x, y=y, col=label)) + geom_point() + ggtitle("trinary-classifier-data")
+```
+
+## 1eii
+
+The k nearest neighbors algorithm categorizes an input value by looking at the labels for the k nearest points and assigning a category based on the most common label. In this problem, you will determine which points are nearest by calculating the Euclidean distance between two points. As a refresher, the Euclidean distance between two points:
+
+```{r}
+euclidean_binary <- nls(label ~ sqrt((x1 - x)^2 + (y1 - y)^2), data=binary_classifier_df, start=list(x1=50, y1=50))
+summary(euclidean_binary)
+
+euclidean_trinary <- nls(label ~ sqrt((x1 - x)^2 + (y1 - y)^2), data=trinary_classifier_df, start=list(x1=50, y1=50))
+summary(euclidean_trinary)
+```
+
+## 1eiii
+
+Fitting a model is when you use the input data to create a predictive model. There are various metrics you can use to determine how well your model fits the data. For this problem, you will focus on a single metric, accuracy. Accuracy is simply the percentage of how often the model predicts the correct result. If the model always predicts the correct result, it is 100% accurate. If the model always predicts the incorrect result, it is 0% accurate.
+
+## 2di
+
+Plot the dataset using a scatter plot.
+
+```{r}
+# Load clustering-data.csv
+clustering_df=read.csv('clustering-data.csv')
+
+ggplot(clustering_df, aes(x=x, y=y)) + geom_point() + ggtitle("clustering-data")
+```
+
+## 2dii
+
+Fit the dataset using the k-means algorithm from k=2 to k=12. Create a scatter plot of the resultant clusters for each value of k.
+
+```{r}
+library(useful)
+set.seed(278613)
+clusteringK2 <- kmeans(x=clustering_df, centers=2)
+plot(clusteringK2, data=clustering_df)
+clusteringK3 <- kmeans(x=clustering_df, centers=3)
+plot(clusteringK3, data=clustering_df)
+clusteringK4 <- kmeans(x=clustering_df, centers=4)
+plot(clusteringK4, data=clustering_df)
+clusteringK5 <- kmeans(x=clustering_df, centers=5)
+plot(clusteringK5, data=clustering_df)
+clusteringK6 <- kmeans(x=clustering_df, centers=6)
+plot(clusteringK6, data=clustering_df)
+clusteringK7 <- kmeans(x=clustering_df, centers=7)
+plot(clusteringK7, data=clustering_df)
+clusteringK8 <- kmeans(x=clustering_df, centers=8)
+plot(clusteringK8, data=clustering_df)
+clusteringK9 <- kmeans(x=clustering_df, centers=9)
+plot(clusteringK9, data=clustering_df)
+clusteringK10 <- kmeans(x=clustering_df, centers=10)
+plot(clusteringK10, data=clustering_df)
+clusteringK11 <- kmeans(x=clustering_df, centers=11)
+plot(clusteringK11, data=clustering_df)
+clusteringK12 <- kmeans(x=clustering_df, centers=12)
+plot(clusteringK12, data=clustering_df)
+```
+
